@@ -3,6 +3,106 @@
 \begin{refsection}
 \chapterauthor{Max Obrist und Martin Stypinski}
 
+Die \emph{Epidemiologie} ist eine wissenschaftliche Disziplin, welche sich mit Ursache, Verbreitung und Folgen von gesundheitsbezogenen Ereignissen in einer Population befasst.
+Im Gegensatz zur klassischen Medizin befasst sich die Epidemiologie nicht damit, wie eine Krankheit geheilt werden kann, oder eine kranke Person geheilt werden kann, sondern damit, wie sich eine spezielle Krankheit ausbreitet, und mit welchen Mitteln die Krankheit in der Gesamtbevölkerung besiegen kann.
+
+Die \emph{mathematische Epidemiologie} -- womit wir uns in diesem Kapitel ansatzweise befassen -- ist ein Teilgebiet der Epidemiologie sowie der \emph{theoretischen Biologie}.
+Die mathematische Epidemiologie befasst sich speziell mit formalen Modellen zur Ausbreitung von Krankheiten, stellt also Fragen nach z.B. der Form oder der Ausbreitungsgeschwindigkeit von ansteckbaren Krankheiten, beispielsweise von Influenza, Masern oder auch Ebola. 
+Das \emph{SIR-Model}, welches wir auf den nächsten Seiten detailliert anschauen werden, ist ein mathematisches Modell, mit welchem der Verlauf einer Krankheit in einer Population modelliert werden kann.
+
+\section{Problemstellung}
+Wir stellen uns vor, dass in einer Bevölkerungsgruppe eine Krankheit ausbricht. 
+Es handelt sich dabei um einen neuen Influenza-Stamm handeln.
+Bei einer Grippe wird ein Träger, nachdem er die Krankheit ausgestanden hat, bekanntermassen immun gegen diesen speziellen Stamm (Aber nicht gegen andere Stämme von Influenza).
+Nachdem die Krankheit bereits ein wenig durch die Bevölkerung gegangen ist, lassen sich anhand der ersten Daten einige Informationen über die Krankheit erfassen.
+Zum Beispiel kann herausgefunden, wie Infektiös eine Krankheit ist, oder wie lange es nach einer Infektion durchschnittliche dauert, bis ein Träger die Infektion überstanden hat.
+
+Anhand dieser Informationen soll nun ein Modell entwickelt werden, mit welchem gewisse Vorhersagen über den Verlauf der Krankheit getroffen werden können. 
+Es soll nochmals wiederholt werden, dass mit dem Verlauf der Krankheit nicht der Verlauf der Krankheit in einem Individuum gemeint ist, sondern wie sich die Krankheit in der Bevölkerung selbst ausbreitet. 
+Der Patient ist sozusagen also nicht ein einzelner Kranker, sondern eine ganze Population aufs mal.
+
+Der Einfachheit halber nehmen wir an, dass die Grösse der Population konstant ist.
+Die Geburten- und Sterberate in der Bevölkerung werden damit ignoriert.
+
+\section{SIR-Modell}
+Bei allen Krankheiten, welche sich wie die oben beschriebene Grippe verhalten -- Ein gesunden Subjekt wird infiziert, ist eine gewisse Zeit lang Krank und ist nach der Genesung immun gegen den Erreger -- lässt sich die Bevölkerung in 3 Kompartimente aufteilen. 
+\begin{description}
+  \item [Susceptibles ($S$)] sind Individuen, welche von einem Träger der Krankheit angesteckt werden können. Sie Tragen die Krankheit weder in sich, noch sind sie bereits immun gegen die Krankheit. Werden sie angesteckt, werden sie zu \emph{Infected}.
+  \item [Infected ($I$)] sind Personen, die zum aktuellen Zeitpunkt mit der Krankheit infiziert sind, und auch andere Individuen infizieren können. Nach einer gewissen Zeit genesen sie, und verschieben sich dann in das Kompartiment \emph{Removed}.
+  \item [Removed ($R$)] sind jene Individuen, welche Immun gegen die Krankheit sind und nicht erneut angesteckt werden können. Im normalen SIR-Modell wird dabei nicht zwischen genesenen und gestorbenen Individuen unterschieden, weshalb dieses Kompartiment schlicht \emph{Removed} genannt wird.
+\end{description}
+
+Es wurde bereits erwähnt, dass davon ausgegangen wird, dass die Bevölerung $N$ konstant ist, also $S + I + R = const$. Damit muss die Summe aller Ableitungen konstant sein, wie
+\begin{align*}
+  \frac{d}{dt}\left(S+I+R\right) = 0
+\end{align*}
+aufzeigt. Das SIR-Modell beschreibt nun, wie genau sich eine Krankheit in der Bevölkerung ausbreitet, wie sich also die Individuen durch diese 3 Kompartimente bewegen.
+
+\textbf{TODO: Grafik SIR Modell}
+
+Um dies zu beschreiben, muss bekannt sein, mit welchen Raten sich die Individuen zwischen den Kompartimenten verschieben.
+
+Betrachten wir zuerst den Übergang von $S$ nach $R$.
+Dieser Übergang ist davon Abhängig, wie oft ein infiziertes Individuum ein anderes anstecken kann.
+Dies ist natürlich einerseits davon abhängig, wie infektiös eine Krankheit ist, diese Infektionsrate wird $\beta$ genannt.
+Gleichzeit ist dieser Übergang davon abhängig, wie viele Individuen überhaupt angesteckt werden können. 
+Pro Zeiteinheit sind dies $\beta N$ Individuen.
+Nun ist aber nicht jedes Individuum der Population $N$ tatsächlich \emph{Susceptible}, die Wahrscheinlichkeit ein solches Individuum zu treffen ist $\frac{S}{N}$.
+Somit kann ein einzelnes Individuum pro Zeiteinheit 
+\begin{align*}
+  \beta S N \frac{S}{N} = \beta S
+\end{align*}
+andere Individuen infizieren.
+Alle \emph{Infected} zusammen können damit pro Zeiteinheit $\beta S I$ Individuen infizieren. 
+$\beta$ ist also nicht nur davon abhängig, wie ansteckbar eine Krankheit ist, sondern auch wie wahrscheinlich der Kontakt mit einem infizierten Individuum ist. 
+Es gibt damit einfach Massnahmen, um diesen Faktor zu beeinflussen, zum Beispiel eine gute Hygiene oder auch Quarantänemassnahmen.
+
+Der Übergang von $I$ nach $R$ ist etwas einfacher zu erklären. 
+Nach einer gewissen Zeit von durchschnittlich $k$ Zeiteinheiten genest ein \emph{Infected} Individuum wieder.
+Der Kehrwert dieser Dauer wird Genesungsrate genannt und $\gamma$ genannt, also $\gamma = \frac{1}{k}$.
+Von allen \emph{Infected} wird damit pro Zeiteinheit $\gamma I$ ins Kompartiment $R$ verschoben.
+Auch $\gamma$ kann mit bestimmten Massnahmen beeinflusst werden, z.B. indem Medikamente an die Bevölkerung verteilt werden.
+
+Damit sind alle Informationen bekannt, welche benötigt werden, um unsere Differentialgleichungen aufzustellen. 
+\begin{alignat*}{3}
+  \frac{dS}{dt} & = - && \beta S I  \\
+  \frac{dI}{dt} & =   && \beta S I - && \gamma I \\
+  \frac{dR}{dt} & =   &&             && \gamma I 
+\end{alignat*}
+Die 3 Gleichungen sind dabei einfach zu erklären. 
+Aus dem Kompartiment $S$ verschiebt sich jede Zeiteinheit eine gewisse Anzahl Individuen nach $I$, wobei dieser Wert abhängig ist vom Faktor $\beta$ sowie der Anzahl Individuen in den Kompartimenten $S$ und $I$.
+Diese tauchen dann im Kompartiment $I$ auf, aus welchem gleichzeitig jede Zeiteinheit eine gewisse Zahl von Individuen nach $R$ verschiebt, ein Wert der Abhängig ist vom \gamma sowie der Anzahl der Individuen in Kompartiment $I$. 
+Damit haben wir die Grundlagen des SIR-Modells hergeleitet. 
+
+Wenn die Parameter $\beta$ und $\gamma$ bekannt sind, kann damit ein Model erstellt werden, mit welchem die Ausbreitung einer Krankheit in der Bevölkerung modelliert werden kann.
+
+\textbf{TODO: Grafik SIR Modell mit speziellen Parametern}
+
+Mit diesem Modell lassen sich somit diverse Charakteristiken einer Krankheit erkennen. 
+Somit kann nun bestimmt werden, zu welchem Zeitpunkt eine Krankheit am schwersten wütet. 
+Aber es gibt noch weitere Informationen, welche anhand des SIR-Modells gefunden werden können.
+Ein speziell wichtiger Faktor, der anhand dieses Modells bestimmt werden kann, ist die Impfquote, was wir im folgenden genauer anschauen möchten.
+
+Dafür möchten wir ein Richtungsfeld berechnen. 
+Da aber ein 3-Dimensionales Richtungsfeld schwierig darzustellen ist, soll im folgenden die Dimensionalität reduziert werden...
+
+\textbf{TODO: Nullkline, Impfquote}
+
+\section{Varianten des SIR-Models}
+Dinge wie SIS, SEIR Model erläutern. Allenfalls weitere Faktoren anschauen wie Geburten- und Sterberate oder so...
+
+\section{Ebola}
+
+Real World Beispiel Ebola
+
+\section{Zombies}
+
+
+
+\section{Weitere Anwendungsfälle}
+
+
+
 \printbibliography[heading=subbibliography]
 \end{refsection}
 
