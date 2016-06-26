@@ -1,3 +1,6 @@
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri}
+\tikzstyle{state}=[circle,thick,draw=black!75,fill=white!20,minimum size=6mm]
+
 \chapter{SIR\label{chapter:sir}}
 \lhead{SIR}
 \begin{refsection}
@@ -38,7 +41,10 @@ Es wurde bereits erwähnt, dass davon ausgegangen wird, dass die Bevölerung $N$
 \end{align*}
 aufzeigt. Das SIR-Modell beschreibt nun, wie genau sich eine Krankheit in der Bevölkerung ausbreitet, wie sich also die Individuen durch diese 3 Kompartimente bewegen.
 
-\textbf{TODO: Grafik SIR Modell}
+\begin{figure}[H]
+  \centering
+  \include{sir/models/sir_model}
+\end{figure}
 
 Um dies zu beschreiben, muss bekannt sein, mit welchen Raten sich die Individuen zwischen den Kompartimenten verschieben.
 
@@ -153,10 +159,51 @@ Natürlich wird auch in dieser Situation eine Individuen aus $S$ mit der Krankhe
 Allerdings nimmt der Anteil der \emph{Infected} immer mehr ab, es kann also nicht zu einer grossangelegten Epidemie kommen.
 
 \section{Varianten des SIR-Models}
+
 \textbf{TODO: Dinge wie SIS, SEIR Model erläutern. Allenfalls weitere Faktoren anschauen wie Geburten- und Sterberate oder so...}
 
 \section{Ebola}
-\textbf{TODO: Real World Beispiel Ebola}
+Die Ebolafieber-Epidemie 2014  war eine der ausgeprägtesten und stärksten Ebolaepidemien seit der Entdeckung des Ebolavirus 1976. \textbf{Todo Quote: http://www.cdc.gov/vhf/ebola/outbreaks/history/chronology.html} Eine zentralle Frage während des Ausbruchs befasst sich mit der Versorgung und der Entwicklung der Krankheit. Wie war es zu jedem Zeitpunkt der WHO klar, welche Entwicklung die Krankheit durchläuft? Medien haben stets spekuliert, verschiedene Expertenquellen blieben aber Mehrheitlich ruhig. \\
+
+Um ein geeignetes Kompartiment Model für Ebola zu finden, müssen zuerst die Grenzen von SIR beschrieben werden. Das SIR Model beschreibt 3 Zustände. Für eine Krankheit mit langer Inkubationszeit reicht dieses Model nicht mehr aus. Ein Ebolainfizierter ist zu begin nicht ansteckend und weisst keinerlei Symptome auf. Erst nach einer gewissen Zeit wird die Krankheit ausbrechen und ihn auch zu einer Bedrohung für seine Mitmenschen machen. Es muss somit ein neuer Zustand eingeführt werden, welcher Aufzeigt, dass die Person zwar Exponiert ist, die Krankheit aber noch nicht ausgebrochen ist.
+\begin{figure}[H]
+  \centering
+  \include{sir/models/seir_model}
+\end{figure}
+\begin{description}
+  \item [Exposed ($E$)] sind Individuen, welche in Kontakt mit einem Träger der Krankheit waren, aber die noch nicht infiziert sind. Die Infektion und der Ausbruch der Krankheit haben noch nicht statt gefunden, sobald dieser Zustand eintritt werden sie zu \emph{Infected}.
+\end{description}
+Die Übergange des Kompartimenetsmodels können wie folgt beschrieben werden:
+ \begin{alignat*}{4}
+   \frac{dS}{dt} & = - &   & \beta S I & & \\
+   \frac{dE}{dt} & =   &   & \beta S I - &   & \delta E & & \\
+   \frac{dI}{dt} & =   &   &  &   & \delta E - & & \gamma I \\
+   \frac{dR}{dt} & =   &   &  &   &  & & \gamma I \\
+ \end{alignat*}
+Gekoppelt an das Ebola Beispiel können nu die Faktoren $\beta$, $\gamma$ und $\delta$ erklärt werden. Diese Faktoren können an verschiedene Krankheitsabschnitte gekoppelt werden.
+\begin{description}
+  \item [Kontaktrate ($\beta$)] beschreibt die Art und Weise einer Übertragung. In diesem Wert enthalten sind, die Wahrscheinlichkeit angesteckt zu werden, aber $\beta$ bildet auch das soziale Gefüge ab. Haben mehr Menschen potentiellen Kontakt zu einem Infizierten, so ist $\beta$ höher. Im Falle des Ausbruchs in Sierra Leone von 2014 betrug dieser Wert \textbf{0.128}.
+  \item [Inkbationsdauer ($\frac{1}{\delta}$)] beschreibt die Dauer, welche benötigt wird, bis die Krankheit in einem Individuum ausbricht. Im Falle von Ebola in Sierra Leone beträgt dieser Wert \textbf{10 Tage}.
+  \item [Infektionsdauer ($\frac{1}{\gamma}$)] beschreibt die Dauer, welche die Krankheit im Körper verbleibt. Im Falle einer Genesung oder eines Exitus, ist das Individuum nicht mehr Ansteckbar. Der Wert für Sierra Leone betrug 2014 \textbf{10.38 Tage}.
+\end{description}
+Wir verwenden die reziproken Werte $\gamma$ und $\delta$ die mit einem Zeitschlitz gerechnet wird. Wenn die Infektionsdauer 10 Tage beträgt, so ist jeden Tag die Infektion um $\frac{1}{10}$ fortgeschritten.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{sir/ebola_outbreak.png}
+\end{figure}
+Die Abbildung wiederspiegelt den Schweregrad dieser Epidemie ohne ein Eingreifen von Hilfsorganisationen, Regierungen. Da die 'Case-Fatality-Rate' (CFR) von Ebola für diese Epidemie bei 80\% liegt (Todo: Quote http://www.healthmap.org/site/diseasedaily/article/estimating-fatality-2014-west-african-ebola-outbreak-91014), wurde vollständigkeit halber das Kompartiment R (Recovered) mit Recovered und Dead aufgeteilt.
+
+Wie unschwer zu erkennen ist, wäre die Entwicklung fatal. Etwa 37\% der Bevölkerung wäre an den Folgen von Ebola gestorben. Doch dies war nicht der Fall, obschon sehr hohe Zahlen zu beklagen sind, sind diese nicht annährend auf diesem erschreckend hohen Niveau. Um die Massnahmen besser zu verstehen, müssen wir zuerst verstehen welche Paramter wirklich veränderbar sind.
+\\
+Die Parameter $\gamma$ und $\delta$ sind im Grunde starre Werte, welche auch in Liberien nahezu identisch anzutreffen waren. Der einzige Parameter, welcher stark beeinflussbar sein muss ist somit $\beta$. Der Parameter $\beta$ bildet das soziale Gefüge und die damit verbundene Wahrscheinlichkeit einer Ansteckung ab. Verändert sich dieser Paramter gegen 0, so werden weniger Tote zu beklagen sein, verändert er sich jedoch gegen 0.15 so werden massiv mehr Tote zu beklagen sein.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{sir/beta_change_det.png}
+\end{figure}
+Aus diesem Plot ist unschwer zu erkennen, dass die Änderungen an $\beta$ einen grossen Einfluss auf den Krankheitsverlauf haben.
+\\
+Die Massnahmen in Form von Quarantäne, Isolation zur Eindämmung der Krankheit, waren somit die aus Kompartimentsmodelsicht betrachtet die richtigen Massnahmen zur Eindämmung der Krankheit.
 
 \section{Zombies}
 \textbf{TODO: Zombies}
