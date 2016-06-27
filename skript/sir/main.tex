@@ -10,7 +10,7 @@ Die \emph{Epidemiologie} ist eine wissenschaftliche Disziplin, welche sich mit U
 Im Gegensatz zur klassischen Medizin befasst sich die Epidemiologie nicht damit, wie eine Krankheit, bzw. eine kranke Person geheilt werden kann, sondern damit, wie sich eine spezielle Krankheit ausbreitet, und mit welchen Mitteln die Krankheit in der Gesamtbevölkerung besiegt werden kann.
 
 Die \emph{mathematische Epidemiologie} -- womit wir uns in diesem Kapitel ansatzweise befassen -- ist ein Teilgebiet der Epidemiologie, sowie der \emph{theoretischen Biologie}.
-Die mathematische Epidemiologie befasst sich speziell mit formalen Modellen zur Ausbreitung von Krankheiten, stellt also Fragen nach z.B. der Form oder der Ausbreitungsgeschwindigkeit von ansteckbaren Krankheiten, beispielsweise von Influenza, Masern oder auch Ebola. 
+Die mathematische Epidemiologie befasst sich speziell mit mathematischen Modellen zur Ausbreitung von Krankheiten, stellt also Fragen nach z.B. der Form oder der Ausbreitungsgeschwindigkeit von ansteckbaren Krankheiten, beispielsweise von Influenza, Masern oder auch Ebola. 
 Das \emph{SIR-Model}, welches wir auf den nächsten Seiten detailliert anschauen werden, ist ein mathematisches Modell, mit welchem der Verlauf einer Krankheit in einer Population modelliert werden kann.
 
 \section{Problemstellung}
@@ -26,6 +26,11 @@ Der Patient ist sozusagen also nicht ein einzelner Kranker, sondern eine ganze P
 
 Der Einfachheit halber nehmen wir an, dass die Grösse der Population konstant ist.
 Die Geburten- und Sterberate in der Bevölkerung werden damit ignoriert.
+Diese Annäherung ist dann möglich, wenn die Lebenserwartung (mehrere dutzend Jahre) im Vergleich zum Krankheitsverlauf (ein paar Wochen bis Monate) sehr gross ist.
+In diesem Fall hat der Bevölkerungswachstum im Verlauf der Krankheit nur einen vergleichbar kleinen Einfluss auf die Population, und kann dadurch vernachlässigt werden.
+Im Falle von langanhaltenden Krankheiten, z.B. HIV/AIDS, wo der Krankheitsverlauf mehrere Jahrzehnte dauern kann, müsste das Modell entsprechend erweitert werden.
+
+
 
 \section{SIR-Modell}
 Bei allen Krankheiten, welche sich wie die oben beschriebene Grippe verhalten -- Ein gesundes Subjekt wird infiziert, ist eine gewisse Zeit lang krank und ist nach der Genesung immun gegen den Erreger -- lässt sich die Bevölkerung in 3 Kompartimente aufteilen. Weitere klassische Beispiele für Krankheiten, die sich nach diesem Muster ausbreiten, sind die typischen Kinderkrankheiten Masern, Mumps oder Röteln.
@@ -39,7 +44,10 @@ Es wurde bereits erwähnt, dass davon ausgegangen wird, dass die Bevölkerung $N
 \begin{align*}
   \frac{d}{dt}\left(S+I+R\right) = 0
 \end{align*}
-aufzeigt. Das SIR-Modell beschreibt nun, wie genau sich eine Krankheit in der Bevölkerung ausbreitet, wie sich also die Individuen durch diese 3 Kompartimente bewegen.
+aufzeigt. 
+$N$, sowie die die Kompartimente $S$, $I$ und $R$ können dabei sowohl die nummerische Grösse der Population beschreiben, oder aber sie beschreiben die Populationen relativ. 
+In weiteren Verlauf wird zweiteres gewählt, damit ist zu jedem Zeitpunkt $N = 1$.
+Das SIR-Modell beschreibt nun, wie genau sich eine Krankheit in der Bevölkerung ausbreitet, wie sich also die Individuen durch diese 3 Kompartimente bewegen.
 Um dies zu beschreiben, muss bekannt sein, mit welchen Raten sich die Individuen zwischen den Kompartimenten verschieben.
 
 \begin{figure}[H]
@@ -86,9 +94,9 @@ Wenn die Parameter $\beta$ und $\gamma$ bekannt sind, kann damit ein Model erste
 Mit diesem Modell lassen sich somit diverse Charakteristiken einer Krankheit erkennen. 
 Es kann nun bestimmt werden, zu welchem Zeitpunkt eine Krankheit am schwersten wütet. 
 Aber es gibt noch weitere Informationen, welche anhand des SIR-Modells gefunden werden können.
-Ein speziell wichtiger Faktor, der anhand dieses Modells bestimmt werden kann, ist die Impfquote.
-Dies wollen wir im Folgenden genauer anschauen.
+Ein speziell wichtiger Faktor, der anhand dieses Modells bestimmt werden kann, ist die Impfquote, die im nächsten Abschnitt genauer betrachtet wird.
 
+\section{Impfquote}
 Um eine Aussage über die Impfquote zu treffen, reicht es, die verschiedenen Gleichungen genauer zu betrachten, eine nummerische Lösung ist dafür nicht vonnöten.
 Wir beginnen mit der einfachen Gleichung
 \begin{align*}
@@ -158,10 +166,6 @@ Wenn also ein Anteil von mehr als $\frac{\gamma}{\beta}$ in der Population von B
 Natürlich kann auch in dieser Situation eine Individuum aus $S$ mit der Krankheit infiziert werden, eine Infektion ist natürlich immer möglich. 
 Allerdings nimmt der Anteil der \emph{Infected} immer mehr ab, es kann also nicht zu einer grossangelegten Epidemie kommen.
 
-\section{Varianten des SIR-Models}
-
-\textbf{TODO: Dinge wie SIS, SEIR Model erläutern. Allenfalls weitere Faktoren anschauen wie Geburten- und Sterberate oder so...}
-
 \section{Ebola}
 Die Ebolafieber-Epidemie 2014  war eine der ausgeprägtesten und stärksten Ebolaepidemien seit der Entdeckung des Ebolavirus 1976. \textbf{Todo Quote: http://www.cdc.gov/vhf/ebola/outbreaks/history/chronology.html} Eine zentrale Frage während des Ausbruchs befasst sich mit der Versorgung und der Entwicklung der Krankheit. Wie war es zu jedem Zeitpunkt der WHO klar, welche Entwicklung die Krankheit durchläuft? Medien haben stets spekuliert, verschiedene Expertenquellen blieben aber Mehrheitlich ruhig. \\
 
@@ -180,30 +184,32 @@ Die Übergange des Kompartimentmodells können wie folgt beschrieben werden:
    \frac{dI}{dt} & =   &   &  &   & \delta E - & & \gamma I \\
    \frac{dR}{dt} & =   &   &  &   &  & & \gamma I \\
  \end{alignat*}
-Gekoppelt an das Ebola Beispiel können nu die Faktoren $\beta$, $\gamma$ und $\delta$ erklärt werden. Diese Faktoren können an verschiedene Krankheitsabschnitte gekoppelt werden.
+Gekoppelt an das Ebola Beispiel können nun die Faktoren $\beta$, $\gamma$ und $\delta$ erklärt werden. Diese Faktoren können an verschiedene Krankheitsabschnitte gekoppelt werden.
 \begin{description}
   \item [Kontaktrate ($\beta$)] beschreibt die Art und Weise einer Übertragung. In diesem Wert enthalten sind, die Wahrscheinlichkeit angesteckt zu werden, aber $\beta$ bildet auch das soziale Gefüge ab. Haben mehr Menschen potentiellen Kontakt zu einem Infizierten, so ist $\beta$ höher. Im Falle des Ausbruchs in Sierra Leone von 2014 betrug dieser Wert \textbf{0.128}.
   \item [Inkubationsdauer ($\frac{1}{\delta}$)] beschreibt die Dauer, welche benötigt wird, bis die Krankheit in einem Individuum ausbricht. Im Falle von Ebola in Sierra Leone beträgt dieser Wert \textbf{10 Tage}.
   \item [Infektionsdauer ($\frac{1}{\gamma}$)] beschreibt die Dauer, welche die Krankheit im Körper verbleibt. Im Falle einer Genesung oder eines Exitus, ist das Individuum nicht mehr Ansteckbar. Der Wert für Sierra Leone betrug 2014 \textbf{10.38 Tage}.
 \end{description}
-Wir verwenden die reziproken Werte $\gamma$ und $\delta$ da mit einem Zeitschlitz gerechnet wird. Wenn die Infektionsdauer 10 Tage beträgt, so ist jeden Tag die Infektion um $\frac{1}{10}$ fortgeschritten.die mit einem
+Wir verwenden die reziproken Werte $\gamma$ und $\delta$ da mit einem Zeitschlitz gerechnet wird. Wenn die Infektionsdauer 10 Tage beträgt, so ist jeden Tag die Infektion um $\frac{1}{10}$ fortgeschritten.
 
-\begin{figure}[H]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{sir/ebola_outbreak.png}
+  \caption[Ebola Ausbruch]{Die Abbildung widerspiegelt den Schweregrad der Ebolaepidemie in Liberia ohne ein Eingreifen von Hilfsorganisationen, Regierungen. Da die 'Case-Fatality-Rate' (CFR) von Ebola für diese Epidemie bei 80\% liegt (\textbf{Todo: Quote http://www.healthmap.org/site/diseasedaily/article/estimating-fatality-2014-west-african-ebola-outbreak-91014}), wurde der Vollständigkeit halber das Kompartiment $R$ (\emph{Removed}) in \emph{Recovered} und \emph{Dead} aufgeteilt.}
 \end{figure}
-Die Abbildung widerspiegelt den Schweregrad dieser Epidemie ohne ein Eingreifen von Hilfsorganisationen, Regierungen. Da die 'Case-Fatality-Rate' (CFR) von Ebola für diese Epidemie bei 80\% liegt (\textbf{Todo: Quote http://www.healthmap.org/site/diseasedaily/article/estimating-fatality-2014-west-african-ebola-outbreak-91014}), wurde der Vollständigkeit halber das Kompartiment $R$ (\emph{Removed}) in \emph{Recovered} und \emph{Dead} aufgeteilt.
 
 Wie unschwer zu erkennen ist, wäre die Entwicklung fatal. Etwa 37\% der Bevölkerung wäre an den Folgen von Ebola gestorben. Doch dies war nicht der Fall. obschon sehr hohe Zahlen zu beklagen sind, sind diese nicht annähernd auf diesem erschreckend hohen Niveau. Um die Massnahmen besser zu verstehen, müssen wir zuerst verstehen, welche Parameter wirklich veränderbar sind.
 
-Die Parameter $\gamma$ und $\delta$ sind im Grunde starre Werte, welche auch in Liberia nahezu identisch anzutreffen waren. Der einzige Parameter, welcher stark beeinflussbar sein muss ist somit $\beta$. Der Parameter $\beta$ bildet das soziale Gefüge und die damit verbundene Wahrscheinlichkeit einer Ansteckung ab. Verändert sich dieser Paramter gegen 0, so werden weniger Tote zu beklagen sein, verändert er sich jedoch gegen 0.15 so werden massiv mehr Tote zu beklagen sein.
-\begin{figure}[H]
+Die Parameter $\gamma$ und $\delta$ sind im Grunde starre Werte, welche auch in Liberia nahezu identisch anzutreffen waren. Der einzige Parameter, welcher stark beeinflussbar sein muss, ist somit $\beta$. Der Parameter $\beta$ bildet das soziale Gefüge und die damit verbundene Wahrscheinlichkeit einer Ansteckung ab. Verschiebt sich dieser Parameter gegen 0, so werden weniger Tote zu beklagen sein, erhöht er sich jedoch, so werden massiv mehr Tote zu beklagen sein. Der Einfluss von $\beta$ auf die Mortalitätsrate ist in Abbildung~\ref{fig:beta_change_det}
+
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=1\textwidth]{sir/beta_change_det.png}
+  \caption[Einfluss von $\beta$ auf die Mortalitätsrate]{Diese Abbildung zeigt, dass bereits eine kleine Änderungen von $\beta$ einen grossen Einfluss auf den Krankheitsverlauf hat.}
+  \label{fig:beta_change_det}
 \end{figure}
-Aus diesem Plot ist unschwer zu erkennen, dass die Änderungen an $\beta$ einen grossen Einfluss auf den Krankheitsverlauf haben.
-\\
-Die Massnahmen in Form von Quarantäne, Isolation zur Eindämmung der Krankheit, waren somit die aus Kompartimentsmodelsicht betrachtet die richtigen Massnahmen zur Eindämmung der Krankheit.
+
+Die Massnahmen in Form von Quarantäne, Isolation zur Eindämmung der Krankheit, waren somit die aus Kompartimentmodellsicht betrachtet die richtigen Massnahmen zur Eindämmung der Krankheit.
 
 \section{Zombies}
 \textbf{TODO: Zombies}
